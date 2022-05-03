@@ -1,35 +1,39 @@
 package com.app.kalkulator.models;
 
 import java.util.*;
+import lombok.Data;
+import javax.validation.constraints.NotEmpty;
 
+@Data
 public class Dzialanie {
-    List<String> operatory = new ArrayList<String>();
-    List<Double> liczby = new ArrayList<Double>();
+    private String operator;
+    @NotEmpty(message = "First field is not filled, please put a number")
+    private double liczba1;
+    @NotEmpty(message = "Second field is not filled, please put a number")
+    private double liczba2;
 
-    public Dzialanie(String dzialanie) {
-        MakeDzialanie(dzialanie);
-    }
-    public String ZwrocOperatory(){
-
-        return String.join("",operatory);
-    }
-    private void MakeDzialanie(String dzialanie){
-        String[] wyrazy = dzialanie.split("[*/+-]");
-        for(int i = 0; i<wyrazy.length;i++){
-            liczby.add(Double.parseDouble(wyrazy[i]));
+    /*public Dzialanie(String _operator, double _liczba1, double _liczba2) {
+        liczba1 = _liczba1;
+        liczba2 = _liczba2;
+        operator = _operator;
+        ObliczWynik();
+    }*/
+    public double ObliczWynik(){
+        double wynik = 0;
+        switch(operator){
+            case "+":
+                wynik = liczba1+liczba2;
+                break;
+            case "-":
+                wynik = liczba1-liczba2;
+                break;
+            case "*":
+                wynik = liczba1*liczba2;
+                break;
+            case "/":
+                wynik = liczba1/liczba2;
+                break;
         }
-        String[] _operatory = {"+", "-", "*", "/"};
-        /*
-        int index = 0;
-        while(index<4){
-            while(dzialanie.contains(operatory[index])){
-            }
-            index++;
-        }*/
-        for(int i = 0; i<4; i++){
-            if(dzialanie.contains(_operatory[i])){
-                operatory.add("operatory[i]");
-            }
-        }
+        return wynik;
     }
 }
