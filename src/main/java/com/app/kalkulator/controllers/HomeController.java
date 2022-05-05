@@ -18,6 +18,7 @@ public class HomeController {
     public String calculate(Model model){
         model.addAttribute("cos", "0");
         model.addAttribute("dzialanie", new Dzialanie());
+        model.addAttribute("innyKolor", "black");
         return "mainPage";
     }
     @PostMapping
@@ -28,11 +29,14 @@ public class HomeController {
 
             for (String field : fields) {
                 if (errors.hasFieldErrors(field)) {
-                    model.addAttribute("wynikRownania", Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage());
+                    model.addAttribute("wynikRownania", "Error");
+                    model.addAttribute("innyKolor", "red");
+                    model.addAttribute("error", Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage());
                 }
             }
             return "mainPage";
         }
+        model.addAttribute("innyKolor", "black");
         model.addAttribute("wynikRownania", dzialanie.ObliczWynik());
         return "mainPage";
     }
