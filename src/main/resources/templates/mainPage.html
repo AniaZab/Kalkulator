@@ -31,6 +31,7 @@
         <input type="text" class="calculator-piece calculator-field" th:style="|${innyKolor == 'red' ? 'color: red;' : 'color: black;'}|" th:value="${wynikRownania}" disabled/>
         <div class="p-3 bg-primary text-white text-center">
             <div class="line" th:text = "${error}"></div>
+            <div th:if="${#fields.hasErrors('liczba1')}" th:errors="*{liczba1}"></div>
         </div>
     </div>
         <footer>

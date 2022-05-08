@@ -1,6 +1,10 @@
 package com.app.kalkulator.controllers;
 
-import com.app.kalkulator.models.Dzialanie;
+import com.app.kalkulator.DividedByZeroException;
+import com.app.kalkulator.mappers.mapperDzialanie;
+import com.app.kalkulator.models.DzialanieDto;
+import com.app.kalkulator.services.DzialanieService;
+import com.app.kalkulator.validators.ValidatorDzialanie;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,28 +20,39 @@ import java.util.Objects;
 public class HomeController {
     @GetMapping
     public String calculate(Model model){
-        model.addAttribute("cos", "0");
-        model.addAttribute("dzialanie", new Dzialanie());
+        model.addAttribute("dzialanie", new DzialanieDto());
         model.addAttribute("innyKolor", "black");
         return "mainPage";
     }
     @PostMapping
-    public String calculate(Model model, @Valid Dzialanie dzialanie, Errors errors, BindingResult bindingResult){
-        model.addAttribute("cos", "0");
-        if(bindingResult.hasErrors()){
-            String[] fields = {"liczba1", "liczba2"};
+    public String calculate(Model model, @Valid DzialanieDto dzialanie, Errors errors, BindingResult bindingResult){
+        String liczba1 = dzialanie.getLiczba1();
+        String liczba2 = dzialanie.getLiczba2();
 
-            for (String field : fields) {
-                if (errors.hasFieldErrors(field)) {
-                    model.addAttribute("wynikRownania", "Error");
-                    model.addAttribute("innyKolor", "red");
-                    model.addAttribute("error", Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage());
-                }
+        if(ValidatorDzialanie.CanConvertStringToDouble(liczba1) && ValidatorDzialanie.CanConvertStringToDouble(liczba2)){
+            try{
+                double wynik = DzialanieService.ObliczWynik(dzialanie.getOperator(), mapperDzialanie.ConvertStringToDouble(liczba1), mapperDzialanie.ConvertStringToDouble(liczba2));
+                model.addAttribute("innyKolor", "black");
+                model.addAttribute("wynikRownania", wynik);
             }
-            return "mainPage";
+            catch(DividedByZeroException e){
+                MeetAnError( model,  e.getMessage());
+            }
         }
-        model.addAttribute("innyKolor", "black");
-        model.addAttribute("wynikRownania", dzialanie.ObliczWynik());
+        /*
+        dac w template classe kolr by zmienialo kolor jak jest error - przyklad w str. od javy
+        zmienic w Dzialanie Double i metode przeniesc do nowej klasy Servisu
+1. validator - spr czy da sie zrobic convert
+2. jesli tak to do mappera na double
+3. Controller obsluguje validator i mapper
+4. potem wywoluje service
+         */
+
         return "mainPage";
+    }
+    public void MeetAnError(Model model, String message){
+        model.addAttribute("innyKolor", "red");
+        model.addAttribute("wynikRownania", "Error");
+        model.addAttribute("error", message);
     }
 }
