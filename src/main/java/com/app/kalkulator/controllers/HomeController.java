@@ -9,22 +9,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Objects;
 
 @Controller
 public class HomeController {
     @GetMapping
+    //@RequestMapping(value = "", method = RequestMethod.GET)
     public String calculate(Model model){
         model.addAttribute("dzialanie", new DzialanieDto());
         model.addAttribute("innyKolor", "black");
         return "mainPage";
     }
     @PostMapping
+    //@RequestMapping(value = "", method = RequestMethod.POST)
     public String calculate(Model model, @Valid DzialanieDto dzialanie, Errors errors, BindingResult bindingResult){
         String liczba1 = dzialanie.getLiczba1();
         String liczba2 = dzialanie.getLiczba2();
@@ -47,11 +46,12 @@ public class HomeController {
 3. Controller obsluguje validator i mapper
 4. potem wywoluje service
          */
-
+//
+// th:style="|${innyKolor == 'red' ? 'color: red;' : 'color: black;'}|"
         return "mainPage";
     }
     public void MeetAnError(Model model, String message){
-        model.addAttribute("innyKolor", "red");
+        //model.addAttribute("innyKolor", "red");
         model.addAttribute("wynikRownania", "Error");
         model.addAttribute("error", message);
     }

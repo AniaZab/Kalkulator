@@ -6,6 +6,7 @@ import com.app.kalkulator.DividedByZeroException;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class DzialanieDto {

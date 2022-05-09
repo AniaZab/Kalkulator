@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
 
     <link rel="stylesheet" th:href="@{/mainPageStyle.css}">
     <script type=”text/javascript” th:src="@{/mainPage.js}"></script>
@@ -28,7 +27,7 @@
         </select>
         <input type="text" th:field="*{liczba2}" class="calculator-piece calculator-field" />
         <input class="button calculator-piece calculator-operator" type="submit" value = "=">
-        <input type="text" class="calculator-piece calculator-field" th:style="|${innyKolor == 'red' ? 'color: red;' : 'color: black;'}|" th:value="${wynikRownania}" disabled/>
+        <input type="text" class="calculator-piece calculator-field" th:style="|${#fields.hasAnyErrors()} ? 'color: red;' : 'color: black;'|" th:value="${wynikRownania}" disabled/>
         <div class="p-3 bg-primary text-white text-center">
             <div class="line" th:text = "${error}"></div>
             <div th:if="${#fields.hasErrors('liczba1')}" th:errors="*{liczba1}"></div>
