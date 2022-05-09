@@ -23,6 +23,9 @@ public class HomeController {
     @PostMapping
     public String calculate(Model model, @Valid Dzialanie dzialanie, Errors errors, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
+            MeetAnError(model);
+            return "mainPage";
+            /*if(bindingResult.hasErrors()){
             String[] fields = {"liczba1", "liczba2"};
 
             for (String field : fields) {
@@ -32,10 +35,14 @@ public class HomeController {
                     model.addAttribute("error", Objects.requireNonNull(errors.getFieldError(field)).getDefaultMessage());
                 }
             }
-            return "mainPage";
+            return "mainPage";*/
         }
         model.addAttribute("innyKolor", "black");
         model.addAttribute("wynikRownania", dzialanie.ObliczWynik());
         return "mainPage";
+    }
+    public void MeetAnError(Model model){
+        model.addAttribute("innyKolor", "red");
+        model.addAttribute("wynikRownania", "Error");
     }
 }

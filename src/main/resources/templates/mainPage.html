@@ -30,7 +30,11 @@
         <input class="button calculator-piece calculator-operator" type="submit" value = "=">
         <input type="text" class="calculator-piece calculator-field" th:style="|${innyKolor == 'red' ? 'color: red;' : 'color: black;'}|" th:value="${wynikRownania}" disabled/>
         <div class="p-3 bg-primary text-white text-center">
-            <div class="line" th:text = "${error}"></div>
+            <div th:if="${#fields.hasAnyErrors()}">
+                <ul>
+                    <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+                </ul>
+            </div>
         </div>
     </div>
         <footer>
