@@ -16,14 +16,12 @@ import java.util.Objects;
 public class HomeController {
     @GetMapping
     public String calculate(Model model){
-        model.addAttribute("cos", "0");
         model.addAttribute("dzialanie", new Dzialanie());
         model.addAttribute("innyKolor", "black");
         return "mainPage";
     }
     @PostMapping
     public String calculate(Model model, @Valid Dzialanie dzialanie, Errors errors, BindingResult bindingResult){
-        model.addAttribute("cos", "0");
         if(bindingResult.hasErrors()){
             String[] fields = {"liczba1", "liczba2"};
 
