@@ -1,5 +1,6 @@
 package com.app.kalkulator.models;
 
+import com.app.kalkulator.Exceptions.DividedByZeroException;
 import lombok.Data;
 
 import javax.validation.constraints.Digits;
@@ -15,22 +16,34 @@ public class Dzialanie {
     @NotEmpty(message = "Second field is not filled, please put a number")
     private double liczba2;
 
-    public double ObliczWynik(){
+    public double ObliczWynik() throws DividedByZeroException {
+        /*if (Objects.isNull(liczba1)) {
+            return 0;
+        }*/
         double wynik = 0;
-        switch(operator){
+        switch (operator) {
             case "+":
-                wynik = liczba1+liczba2;
+                wynik = liczba1 + liczba2;
                 break;
             case "-":
-                wynik = liczba1-liczba2;
+                wynik = liczba1 - liczba2;
                 break;
             case "*":
-                wynik = liczba1*liczba2;
+                wynik = liczba1 * liczba2;
                 break;
             case "/":
-                wynik = liczba1/liczba2;
+                if (liczba2 != 0) {
+                    wynik = liczba1 / liczba2;
+                } else {
+                    throw new DividedByZeroException("You can't divide by 0!");
+                }
                 break;
         }
         return wynik;
     }
 }
+/*
+
+    top: 20%;
+            left: 50%;
+            transform: translate(-50%, 0%);*/

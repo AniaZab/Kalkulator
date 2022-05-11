@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
 
     <link rel="stylesheet" th:href="@{/mainPageStyle.css}">
-    <script type=”text/javascript” th:src="@{/mainPage.js}"></script>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -17,41 +16,54 @@
 </head>
 <body>
 <form action="#" method="POST" th:action="@{__${#httpServletRequest.requestURI}__}" th:object="${dzialanie}">
-    <section class="p-1 bg-light">
-    <div class="container-lg mt-lg-auto calculator">
-        <input type="text" th:field="*{liczba1}" class="calculator-piece calculator-field"/>
-        <select th:field="*{operator}" class="calculator-piece calculator-operator" >
-            <option value ="+">+</option>
-            <option value ="-">-</option>
-            <option value ="*">&times;</option>
-            <option value ="/">&divide;</option>
-        </select>
-        <input type="text" th:field="*{liczba2}" class="calculator-piece calculator-field" />
-        <input class="button calculator-piece calculator-operator" type="submit" value = "=">
-        <input type="text" class="calculator-piece calculator-field" th:style="|${innyKolor == 'red' ? 'color: red;' : 'color: black;'}|" th:value="${wynikRownania}" disabled/>
-        <div class="p-3 bg-primary text-white text-center">
-            <div th:if="${#fields.hasAnyErrors()}">
-                <ul>
-                    <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
-                </ul>
+    <section class="p-1">
+        <div class="p-3 bg-secondary info">
+            <h1>Kalkulator</h1>
+        </div>
+        <div class="container-lg mt-sm-5 calculator  bg-light">
+            <div class="p-2 rounded border-primary mb-lg-3 mt-lg-3 bg-primary info">
+                <h4>Proszę podać tylko liczby oraz wybrać operację.</h4>
+                <button type="button" class="btn btn-info" data-bs-toggle="popover"
+                        title="Informacja o kalkulatorze"
+                        data-bs-content="Aby wykonać działanie należy wprowadzić
+                        LICZBY (mogą być rzeczywiste w przedziale: <>) oraz
+                        wybrać operację oraz nacisnąć znak równania. Nie można
+                        dzielić przez 0!">
+                    Ważna informacja
+                </button>
+            </div>
+            <input type="text" th:field="*{liczba1}" class="calculator-piece calculator-field"/>
+            <select th:field="*{operator}" class="calculator-piece calculator-operator" >
+                <option value ="+">+</option>
+                <option value ="-">-</option>
+                <option value ="*">&times;</option>
+                <option value ="/">&divide;</option>
+            </select>
+            <input type="text" th:field="*{liczba2}" class="calculator-piece calculator-field" />
+            <input class="button calculator-piece calculator-operator" type="submit" value = "=">
+            <input type="text" class="calculator-piece calculator-field" th:style="|${innyKolor == 'red' ? 'color: red;' : 'color: black;'}|" th:value="${wynikRownania}" disabled/>
+            <div class="p3">
+                <div class="p-2 rounded border-primary mb-lg-3 mt-lg-3 bg-primary info">
+                    <div th:if="${#fields.hasAnyErrors()}">
+                        <div th:each="err : ${#fields.allErrors()}" th:text="${err}" ></div>
+                    </div>
+                    <div class="line" th:text = "${error}"></div>
+                </div>
             </div>
         </div>
-    </div>
-        <footer>
-            <div class="p-3 bg-primary text-white text-center">
-                <p>Dziękujemy za obejrzenie strony!</p>
-            </div>
-        </footer>
-</section>
-</form>
-<div class="p-2 rounded border-primary mt-1" style="background-color: rgb(140, 156, 184);">
-    <h1>I am backend programmer</h1>
-    <p>Some example text some example text. John Doe is an architect and engineer. Some example text some example text. John Doe is an architect and engineer.Some example text some example text. John Doe is an architect and engineer.</p>
 
-    <button type="button" class="operator btn btn-info" value="+">+</button>
-    <button type="button" class="operator btn btn-info" value="-">-</button>
-    <button type="button" class="operator btn btn-info" value="*">&times;</button>
-    <button type="button" class="operator btn btn-info" value="/">&divide;</button>
-</div>
+    </section>
+</form>
+<footer class="mt-sm-5">
+    <div class="p-3 bg-secondary">
+        <p>Dziękuję za obejrzenie strony!</p>
+    </div>
+</footer>
+<script>
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
+    })
+</script>
 </body>
 </html>

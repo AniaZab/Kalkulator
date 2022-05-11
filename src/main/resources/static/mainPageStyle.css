@@ -1,15 +1,9 @@
 html {
-    font-size: 62.5%;
     box-sizing: border-box;
 }
 .calculator {
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     border-radius: 5px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    width: 350px;
 }
 .calculator-piece{
     width: 19%;
@@ -24,16 +18,33 @@ html {
     text-align: right;
     font-size: 30px;
 }
+.calculator-field:hover{
+    background-color: #cccccc;
+}
 .calculator-operator{
     color: #252525;
     background-color: aqua;
     text-align: center;
     font-size: 30px;
 }
+.calculator-operator:hover{
+    background-color: darkturquoise;
+}
 .line
  {
      clear: both;
      width: 100%;
-     margin-top: 10px;
-     height: 10px;
  }
+.info{
+    color:  white;
+    text-align: center;
+    font-size: 20px;
+}
+body{
+    background-color: cadetblue;
+}
+
+footer {
+    color: white;
+    text-align: center;
+}

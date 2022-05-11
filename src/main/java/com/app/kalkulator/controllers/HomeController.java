@@ -1,5 +1,6 @@
 package com.app.kalkulator.controllers;
 
+import com.app.kalkulator.Exceptions.DividedByZeroException;
 import com.app.kalkulator.models.Dzialanie;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,8 +38,15 @@ public class HomeController {
             }
             return "mainPage";*/
         }
-        model.addAttribute("innyKolor", "black");
-        model.addAttribute("wynikRownania", dzialanie.ObliczWynik());
+        try{
+            double wynik = dzialanie.ObliczWynik();
+            model.addAttribute("innyKolor", "black");
+            model.addAttribute("wynikRownania", wynik);
+        }
+        catch(DividedByZeroException e){
+            MeetAnError(model);
+            model.addAttribute("error", e.getMessage());
+        }
         return "mainPage";
     }
     public void MeetAnError(Model model){
